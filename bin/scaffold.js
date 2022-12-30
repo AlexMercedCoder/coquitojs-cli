@@ -297,8 +297,15 @@ app.listen();
   //+++++++++++++++++++++++++++++++++++
 
   log.white("Progress", "Create Node Project");
-  execSync("npm init -y");
+  execSync("npm init es6 -y");
+  log.white("Progress", "Install Dependencies");
   execSync(`npm install ${dependencies.join(" ")}`);
 
-  log.green("SUCCESS", "Project is Scaffolded");
+  log.green("SUCCESS", `
+  -------------------------------------
+Project is read to go, just one more step:
+
+- cd into project folder and run "node server.js" to try it out!
+  -------------------------------------
+  `);
 }
