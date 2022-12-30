@@ -1,6 +1,7 @@
 #! /usr/bin/env node
 import { log } from "mercedlogger";
 import { execSync } from "child_process";
+import scaffold from "./scaffold";
 
 const [, , operation, arg1] = process.argv;
 
@@ -17,6 +18,7 @@ switch (operation) {
     break;
 
   case "scaffold":
+      arg1 ? scaffold(arg1) : scaffold()
     break;
 
   case "generate":
