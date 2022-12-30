@@ -1,0 +1,27 @@
+{
+  "name": "coquito-cli",
+  "version": "0.0.01",
+  "description": "CLI tool for CoquitoJS",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexMercedCoder/coquitojs-cli.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlexMercedCoder/coquitojs-cli/issues"
+  },
+  "homepage": "https://github.com/AlexMercedCoder/coquitojs-cli#readme",
+  "bin": {
+    "coquito": "./bin/index.js"
+  },
+  "dependencies": {
+    "mercedlogger": "^1.0.1"
+  }
+}
