@@ -2,6 +2,8 @@
 import { log } from "mercedlogger";
 import { execSync } from "child_process";
 import scaffold from "./scaffold.js";
+import addMongo from "./addmongo.js";
+import addMongoModel from "./addmongomodel.js";
 
 const [, , operation, arg1] = process.argv;
 
@@ -23,6 +25,13 @@ switch (operation) {
 
   case "generate":
     break;
+
+  case "add-mongo":
+      addMongo()
+      break
+
+  case "add-mongo-model":
+    arg1 ? addMongoModel(arg1) : addMongoModel()
 
   default:
     console.log(`

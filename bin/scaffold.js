@@ -163,13 +163,61 @@ export default context
 
   log.white("Progress", "Scaffolding Views");
   if (views) {
-    if (["ejs", "pug", "hbs"].includes(views)) {
+    if (
+      [
+        "ejs",
+        "pug",
+        "hbs",
+        "liquid",
+        "nunjucks",
+        "mustache",
+        "twig",
+        "hamlet",
+      ].includes(views)
+    ) {
       if (["ejs", "pug", "hbs"].includes(views)) {
         dependencies.push(views);
         writeFileSync(
           `./views/index.${views}`,
           "<h1>The Server is Working</h1>"
         );
+        rootRoute = `
+          app.app.get("/", (req, res) => {
+              res.render("index.${views}")
+          })
+          `;
+      }
+      if (views === "liquid") {
+        dependencies.push("liquid-express-views");
+        serverImports.push(`import liquid from "liquid-express-views";`);
+        writeFileSync(
+          `./views/index.${views}`,
+          "<h1>The Server is Working</h1>"
+        );
+        viewConfigure = `(app) => {liquid(app)}`;
+        rootRoute = `
+          app.app.get("/", (req, res) => {
+              res.render("index.${views}")
+          })
+          `;
+      }
+      if (
+        ["nunjucks", "mustache", "twig", "hamlet"].includes(views)
+      ) {
+        dependencies.push("consolidate");
+        dependencies.push(views);
+        serverImports.push(`import consolidate from "consolidate";`);
+        writeFileSync(
+          `./views/index.${views}`,
+          "<h1>The Server is Working</h1>"
+        );
+        viewConfigure = `(app) => {
+            // assign the ${views} engine to .${views} files
+app.engine('${views}', consolidate["${views}"]);
+
+// set .${views} as the default extension
+app.set('view engine', '${views}');
+        }`;
         rootRoute = `
           app.app.get("/", (req, res) => {
               res.render("index.${views}")
@@ -301,11 +349,14 @@ app.listen();
   log.white("Progress", "Install Dependencies");
   execSync(`npm install ${dependencies.join(" ")}`);
 
-  log.green("SUCCESS", `
+  log.green(
+    "SUCCESS",
+    `
   -------------------------------------
 Project is read to go, just one more step:
 
-- cd into project folder and run "node server.js" to try it out!
+- run "node server.js" to try it out!
   -------------------------------------
-  `);
+  `
+  );
 }

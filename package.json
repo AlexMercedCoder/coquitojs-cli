@@ -1,6 +1,6 @@
 {
   "name": "coquito-cli",
-  "version": "0.0.04",
+  "version": "0.0.06",
   "description": "CLI tool for CoquitoJS",
   "main": "index.js",
   "type": "module",
