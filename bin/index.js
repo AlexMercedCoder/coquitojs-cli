@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 import { log } from "mercedlogger";
 import { execSync } from "child_process";
-import scaffold from "./scaffold";
+import scaffold from "./scaffold.js";
 
 const [, , operation, arg1] = process.argv;
 

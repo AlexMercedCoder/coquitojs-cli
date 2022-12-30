@@ -3,19 +3,18 @@ import { mkdirSync, readFileSync, writeFileSync, existsSync } from "fs";
 import { log } from "mercedlogger";
 
 export default function scaffold(pathToJson = "./scaffold.json") {
-
-//+++++++++++++++++++++++++++++++++++
-//++++++Check If File Exists
-//+++++++++++++++++++++++++++++++++++
+  //+++++++++++++++++++++++++++++++++++
+  //++++++Check If File Exists
+  //+++++++++++++++++++++++++++++++++++
 
   // check if file exists
   if (!existsSync(pathToJson)) {
     throw `scaffold.json at path (${pathToJson}) does not exist`;
   }
 
-//+++++++++++++++++++++++++++++++++++
-//++++++Track Deps
-//+++++++++++++++++++++++++++++++++++
+  //+++++++++++++++++++++++++++++++++++
+  //++++++Track Deps
+  //+++++++++++++++++++++++++++++++++++
 
   // track dependencies
   const dependencies = ["coquito", "cors", "dotenv"];
@@ -24,7 +23,7 @@ export default function scaffold(pathToJson = "./scaffold.json") {
     'import cors from "cors";',
     'import corsOptions from "./cors.js";',
     'import dotenv from "dotenv";',
-    'import serverConfig from "./server-config.json";',
+    'import serverConfig from "./server-config.json" assert { type: "json" };',
   ];
 
   // default root route
@@ -32,19 +31,18 @@ export default function scaffold(pathToJson = "./scaffold.json") {
     "app.app.get('/', (req, res) => {res.send('server working`)})";
   let viewConfigure = undefined;
 
-
-//+++++++++++++++++++++++++++++++++++
-//++++++Read Scaffold.json
-//+++++++++++++++++++++++++++++++++++
+  //+++++++++++++++++++++++++++++++++++
+  //++++++Read Scaffold.json
+  //+++++++++++++++++++++++++++++++++++
 
   log.white("Progress", "Read scaffolding json");
   // read scaffold.json
   const configRaw = readFileSync(pathToJson);
   const config = JSON.parse(configRaw);
 
-//+++++++++++++++++++++++++++++++++++
-//++++++ Create Directories
-//+++++++++++++++++++++++++++++++++++
+  //+++++++++++++++++++++++++++++++++++
+  //++++++ Create Directories
+  //+++++++++++++++++++++++++++++++++++
 
   log.white("Progress", "Create Directories");
   // create folders
@@ -53,36 +51,37 @@ export default function scaffold(pathToJson = "./scaffold.json") {
   config.views ? mkdirSync("./views") : null;
   mkdirSync("./models");
 
-//+++++++++++++++++++++++++++++++++++
-//++++++ write server-config.json
-//+++++++++++++++++++++++++++++++++++
+  //+++++++++++++++++++++++++++++++++++
+  //++++++ write server-config.json
+  //+++++++++++++++++++++++++++++++++++
 
   log.white("Progress", "Write server-config.json");
   //config object -> server-config.json
   const { bodyparsers, routers, graphql, rpc, port, host, views } = config;
 
   writeFileSync(
-    "./server-config.js",
+    "./server-config.json",
     `
     {
         "bodyparsers": ${Boolean(bodyparsers)},
         "routers": ${JSON.stringify(routers)},
         "port": ${port ? port : 4000},
-        "host": ${host ? host : "localhost"}
+        ${config.static ? `"static": "${config.static}",` : ""}
+        "host": ${host ? `"${host}"` : '"localhost"'}
     }
     `
   );
 
-//+++++++++++++++++++++++++++++++++++
-//++++++ Scaffold GraphQL
-//+++++++++++++++++++++++++++++++++++
+  //+++++++++++++++++++++++++++++++++++
+  //++++++ Scaffold GraphQL
+  //+++++++++++++++++++++++++++++++++++
 
   log.white("Progress", "GraphQL Scaffolding (if graphql: true)");
   // setting up graphql
   if (graphql) {
     mkdirSync("./graphql");
     writeFileSync(
-      "./grapql/rootValue.js",
+      "./graphql/rootValue.js",
       `// sample data
     const todos = [{message: "Breakfast"}]
 
@@ -121,9 +120,9 @@ type Mutation {
     serverImports.push('import schema from "./graphql/schema.js";');
   }
 
-//+++++++++++++++++++++++++++++++++++
-//++++++ RPC Scaffolding
-//+++++++++++++++++++++++++++++++++++
+  //+++++++++++++++++++++++++++++++++++
+  //++++++ RPC Scaffolding
+  //+++++++++++++++++++++++++++++++++++
 
   log.white("Progress", "SimpleRPC Scaffolding (if rpc: true)");
   if (rpc) {
@@ -158,14 +157,14 @@ export default context
     serverImports.push('import context from "./rpc/context.js";');
   }
 
-//+++++++++++++++++++++++++++++++++++
-//++++++ Scaffold Views
-//+++++++++++++++++++++++++++++++++++
+  //+++++++++++++++++++++++++++++++++++
+  //++++++ Scaffold Views
+  //+++++++++++++++++++++++++++++++++++
 
   log.white("Progress", "Scaffolding Views");
   if (views) {
-    if (["ejs", "pug", "hbs"].includes()) {
-      if (["ejs", "pug", "hbs"].includes()) {
+    if (["ejs", "pug", "hbs"].includes(views)) {
+      if (["ejs", "pug", "hbs"].includes(views)) {
         dependencies.push(views);
         writeFileSync(
           `./views/index.${views}`,
@@ -182,12 +181,14 @@ export default context
     }
   }
 
-//+++++++++++++++++++++++++++++++++++
-//++++++ Write Cors File
-//+++++++++++++++++++++++++++++++++++
+  //+++++++++++++++++++++++++++++++++++
+  //++++++ Write Cors File
+  //+++++++++++++++++++++++++++++++++++
 
   log.white("Progress", "Create Cors File");
-  writeFileSync("./cors.js", `
+  writeFileSync(
+    "./cors.js",
+    `
   
 
 // whilelist of urls for when in production
@@ -204,71 +205,78 @@ const corsOptions = {
 }
 
 export default corsOptions
-  `)
+  `
+  );
 
-//+++++++++++++++++++++++++++++++++++
-//++++++ Create Routers
-//+++++++++++++++++++++++++++++++++++
+  //+++++++++++++++++++++++++++++++++++
+  //++++++ Create Routers
+  //+++++++++++++++++++++++++++++++++++
 
   log.white("Progress", "Create Routers");
 
-  let routeRegisters = []
+  let routeRegisters = [];
 
-  for(let router of routers){
-    const path = router.split("/")[1]
-    writeFileSync(`./controllers/${path}.js`, `
+  for (let router of routers) {
+    const path = router.split("/")[1];
+    writeFileSync(
+      `./controllers/${path}.js`,
+      `
     export default function ${path}Router(router){
 
         router.get("/", (req, res) => {
             res.send("This is the main /${path} route")
         })
     }
-    `)
+    `
+    );
     routeRegisters.push(`
     // register /${path} routes
 ${path}Router(app.${path});
-    `)
+    `);
 
-    serverImports.push(`import ${path}Router from "./controllers/${path}.js";`)
+    serverImports.push(`import ${path}Router from "./controllers/${path}.js";`);
   }
 
-//+++++++++++++++++++++++++++++++++++
-//++++++ Write Server.js
-//+++++++++++++++++++++++++++++++++++
+  //+++++++++++++++++++++++++++++++++++
+  //++++++ Write Server.js
+  //+++++++++++++++++++++++++++++++++++
 
   log.white("Progress", "Building out Server.js");
-  writeFileSync("./server.js", `
-  ${serverImports.join("\n")}
+  writeFileSync(
+    "./server.js",
+    `${serverImports.join("\n")}
+
+  // bring in .env variables
+  dotenv.config()
+
+  // if production, use cors options, if not, allow all requests for development
+const corsMiddleware =
+  process.env.NODE_ENV === "production" ? cors(corsOptions) : cors();
 
   // use pre-hook for any configurations of app objects to occur before middleware/routers
 const prehook = ${viewConfigure ? viewConfigure : "(app) => {}"}
 
 // create application
 const app = new CoquitoApp({
- ${config.static ? `
- // configure static folder
- static: ${config.static},
- ` : null}
- ${config.bodyparsers ? `
- // configure json/urlencoded bodyparsers
- bodyparsers: ${config.bodyparsers},
- ` : null}
+ ...serverConfig,
   // register other middleware for cors
   middleware: [corsMiddleware],
-  // define routers
-  routers: ${routers ? JSON.stringify(routers) : []},
-  ${graphql ? `
+  ${
+    graphql
+      ? `
   // scaffold graphql api
   graphql: { rootValue, schema },
-  ` : null}
-  ${rpc ? `
+  `
+      : ""
+  }
+  ${
+    rpc
+      ? `
   // scaffold simpleRPC api
   rpc: { actions, context },
-  ` : null}
-  // define port
-  port: ${port},
-  // define host
-  host: ${host},
+  `
+      : ""
+  }
   // pass prehook for custom app configuations
   prehook,
 });
@@ -281,15 +289,16 @@ ${routeRegisters.join("\n")}
 // Start Server Listener
 app.listen();
 
-  `)
+  `
+  );
 
-//+++++++++++++++++++++++++++++++++++
-//++++++ Generate Node Project
-//+++++++++++++++++++++++++++++++++++
+  //+++++++++++++++++++++++++++++++++++
+  //++++++ Generate Node Project
+  //+++++++++++++++++++++++++++++++++++
 
   log.white("Progress", "Create Node Project");
-  execSync("npm init -y")
-  execSync(`npm install ${dependencies.join(" ")}`)
+  execSync("npm init -y");
+  execSync(`npm install ${dependencies.join(" ")}`);
 
-  log.green("SUCCESS","Project is Scaffolded")
+  log.green("SUCCESS", "Project is Scaffolded");
 }
