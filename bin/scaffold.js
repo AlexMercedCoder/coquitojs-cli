@@ -75,8 +75,7 @@ export default function scaffold(pathToJson = "./scaffold.json") {
 
   writeFileSync(
     "./server-config.json",
-    `
-    {
+    `{
         "bodyparsers": ${Boolean(bodyparsers)},
         "routers": ${JSON.stringify(routers)},
         "port": ${port ? port : 4000},
@@ -115,8 +114,7 @@ const rootValue = {
     );
     writeFileSync(
       "./graphql/schema.js",
-      `
-    export default \`
+      `export default \`
 type Todo {
     message: String
 }
@@ -143,8 +141,7 @@ type Mutation {
     mkdirSync("./rpc");
     writeFileSync(
       "./rpc/actions.js",
-      `
-    const actions = {
+      `const actions = {
         getList: (payload, context) => {
             console.log(context)
             return [1,2,3,4,5]
@@ -160,8 +157,7 @@ type Mutation {
     );
     writeFileSync(
       "./rpc/context.js",
-      `
-    const context = {}
+      `const context = {}
 
 export default context
     `
@@ -195,8 +191,7 @@ export default context
           `./views/index.${views}`,
           "<h1>The Server is Working</h1>"
         );
-        rootRoute = `
-          app.app.get("/", (req, res) => {
+        rootRoute = `app.app.get("/", (req, res) => {
               res.render("index.${views}")
           })
           `;
@@ -209,8 +204,7 @@ export default context
           "<h1>The Server is Working</h1>"
         );
         viewConfigure = `(app) => {liquid(app)}`;
-        rootRoute = `
-          app.app.get("/", (req, res) => {
+        rootRoute = `app.app.get("/", (req, res) => {
               res.render("index.${views}")
           })
           `;
@@ -230,8 +224,7 @@ app.engine('${views}', consolidate["${views}"]);
 // set .${views} as the default extension
 app.set('view engine', '${views}');
         }`;
-        rootRoute = `
-          app.app.get("/", (req, res) => {
+        rootRoute = `app.app.get("/", (req, res) => {
               res.render("index.${views}")
           })
           `;
@@ -248,11 +241,9 @@ app.set('view engine', '${views}');
   log.white("Progress", "Create Cors File");
   writeFileSync(
     "./cors.js",
-    `
-  
-
-// whilelist of urls for when in production
+    `// whilelist of urls for when in production
 const whitelist = ['http://example1.com', 'http://example2.com']
+
 // corsOptions obect for the cors middlware, essentially blocks requests from urls not in the whitelist
 const corsOptions = {
   origin: function (origin, callback) {
@@ -280,8 +271,7 @@ export default corsOptions
     const path = router.split("/")[1];
     writeFileSync(
       `./controllers/${path}.js`,
-      `
-    export default function ${path}Router(router){
+      `export default function ${path}Router(router){
 
         router.get("/", (req, res) => {
             res.send("This is the main /${path} route")
