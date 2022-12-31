@@ -6,6 +6,7 @@ import addMongo from "./addmongo.js";
 import addMongoModel from "./addmongomodel.js";
 import addRestRoutes from "./addrestroutes.js";
 import addSQL from "./addsql.js";
+import addSQLModel from "./addsqlmodel.js";
 
 const [, , operation, arg1] = process.argv;
 
@@ -44,7 +45,7 @@ switch (operation) {
     arg1 ? addSQL(arg1) : addSQL();
     break;
 
-  case "add-sql":
+  case "add-sql-model":
     arg1 ? addSQLModel(arg1) : addSQLModel();
     break;
 
@@ -55,7 +56,10 @@ switch (operation) {
             OPTIONS:
             - newbasicproject [projectname] (create new coquito app from basic template)
             - scaffold [path to scaffold.json]
-            - generate [item to generate] [name]
+            - add-mongo
+            - add-mongo-model [model name]
+            - add-sql [db type]
+            - add-sql-model [model name]
         -----------------------------------------------------------
         `);
 }
