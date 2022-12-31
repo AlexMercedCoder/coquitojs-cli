@@ -41,7 +41,7 @@ export default function scaffold(pathToJson = "./scaffold.json") {
   const config = JSON.parse(configRaw);
 
   //+++++++++++++++++++++++++++++++++++
-  //++++++ Create Directories
+  //++++++ Create .env and .gitignore
   //+++++++++++++++++++++++++++++++++++
 
   log.white("Progress", "Create .env and .gitignore");
@@ -50,7 +50,7 @@ export default function scaffold(pathToJson = "./scaffold.json") {
   writeFileSync(
     "./.gitignore",
     `/node_modules
-  .env
+.env
   `
   );
 
