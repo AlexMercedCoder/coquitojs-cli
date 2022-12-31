@@ -1,6 +1,6 @@
 import { mkdirSync, writeFileSync, existsSync } from "fs";
 import { log } from "mercedlogger";
-import addRestRoutes from "./addrestroutes";
+import addRestRoutes from "./addrestroutes.js";
 
 export default function addMongoModel(modelName = "Model") {
   log.white("Progress", "Checking for Models File");

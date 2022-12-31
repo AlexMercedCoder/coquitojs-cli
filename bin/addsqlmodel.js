@@ -3,7 +3,8 @@ import {
     writeFileSync,
     existsSync,
   } from "fs";
-  import { log } from "mercedlogger";
+import { log } from "mercedlogger";
+import addRestRoutes from "./addrestroutes.js";
   
   export default function addSQLModel(modelName = "Model") {
   
