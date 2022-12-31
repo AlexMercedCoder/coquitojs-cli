@@ -44,6 +44,20 @@ export default function scaffold(pathToJson = "./scaffold.json") {
   //++++++ Create Directories
   //+++++++++++++++++++++++++++++++++++
 
+  log.white("Progress", "Create .env and .gitignore");
+  // create folders
+  writeFileSync("./.env", "");
+  writeFileSync(
+    "./.gitignore",
+    `/node_modules
+  .env
+  `
+  );
+
+  //+++++++++++++++++++++++++++++++++++
+  //++++++ Create Directories
+  //+++++++++++++++++++++++++++++++++++
+
   log.white("Progress", "Create Directories");
   // create folders
   mkdirSync("./controllers");
@@ -201,9 +215,7 @@ export default context
           })
           `;
       }
-      if (
-        ["nunjucks", "mustache", "twig", "hamlet"].includes(views)
-      ) {
+      if (["nunjucks", "mustache", "twig", "hamlet"].includes(views)) {
         dependencies.push("consolidate");
         dependencies.push(views);
         serverImports.push(`import consolidate from "consolidate";`);
