@@ -355,7 +355,7 @@ app.listen();
     "SUCCESS",
     `
   -------------------------------------
-Project is read to go, just one more step:
+Project is ready to go, just one more step:
 
 - run "node server.js" to try it out!
   -------------------------------------
