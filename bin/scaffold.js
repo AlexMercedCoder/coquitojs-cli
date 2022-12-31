@@ -4,6 +4,8 @@ import { log } from "mercedlogger";
 import makePackage from "./makepackage.js";
 import addSQL from "./addsql.js";
 import addMongo from "./addmongo.js";
+import authMongo from "./authmongo.js";
+import authSQL from "./authsql.js";
 
 export default function scaffold(pathToJson = "./scaffold.json") {
   //+++++++++++++++++++++++++++++++++++
@@ -52,7 +54,8 @@ export default function scaffold(pathToJson = "./scaffold.json") {
   writeFileSync(
     "./.env",
     `PORT=
-DATABASE_URL=`
+DATABASE_URL=
+SECRET=`
   );
   writeFileSync(
     "./.gitignore",
@@ -377,6 +380,22 @@ app.listen();
       ) {
         addSQL(sql[1]);
       }
+    }
+  }
+
+  //+++++++++++++++++++++++++++++++++++
+  //++++++ Generate Auth
+  //+++++++++++++++++++++++++++++++++++
+
+  log.white("Progress", "Check if Auth Needed");
+  if (config.auth) {
+    if (config.auth === "mongo") {
+      log.white("Progress", "Scaffolding Mongo Auth");
+      authMongo();
+    }
+    if (config.auth === "sql") {
+      log.white("Progress", "Scaffolding SQL Auth");
+      authSQL();
     }
   }
 

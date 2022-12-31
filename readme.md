@@ -37,7 +37,8 @@ create an empty directory and create a "scaffold.js" that looks like this:
         "email": "alexmerced@alexmerced.dev",
         "repo": "http://github.com/..."
     },
-    "db": "sql-sqlite3"
+    "db": "sql-sqlite3",
+    "auth": "sql"
 }
 ```
 
@@ -52,6 +53,8 @@ You project will be scaffolded in the directory. If the config file is somewhere
 - Supported View Engines ["ejs", "pug", "hbs", "liquid", "nunjucks", "mustache","twig","hamlet"]
 
 - If you don't need a view engine, just assign false or don't include the property
+
+- values for auth can be "sql" or "mongo", all other values will be ignored an no auth will be added.
 
 ## add-mongo
 
@@ -84,3 +87,14 @@ database options
 ```
 ["pg", "mysql2", "sqlite3", "mariadb", "oracledb", "MSSQL"]
 ```
+
+## add-auth
+
+These commands will do the following to speed up implementing auth:
+- Generate a User Model
+- install bcryptjs, express-session and jsonwebtoken
+- create ./auth/functions.js which will have several functions that you can use to compose JWT to session based auth in your Rest/RPC/Graphql APIs
+
+`add-auth-mongo`
+
+`add-auth-sql`

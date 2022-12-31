@@ -7,6 +7,8 @@ import addMongoModel from "./addmongomodel.js";
 import addRestRoutes from "./addrestroutes.js";
 import addSQL from "./addsql.js";
 import addSQLModel from "./addsqlmodel.js";
+import authMongo from "./authmongo.js";
+import authSQL from "./authsql.js";
 
 const [, , operation, arg1] = process.argv;
 
@@ -49,6 +51,14 @@ switch (operation) {
     arg1 ? addSQLModel(arg1) : addSQLModel();
     break;
 
+  case "add-auth-mongo":
+    authMongo();
+    break;
+
+  case "add-auth-sql":
+    authSQL();
+    break;
+
   default:
     console.log(`
         -----------------------------------------------------------
@@ -60,6 +70,8 @@ switch (operation) {
             - add-mongo-model [model name]
             - add-sql [db type]
             - add-sql-model [model name]
+            - add-auth-mongo
+            - add-auth-sql
         -----------------------------------------------------------
         `);
 }
