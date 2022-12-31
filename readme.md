@@ -22,14 +22,22 @@ create an empty directory and create a "scaffold.js" that looks like this:
 
 ```json
 {
-  "graphql": true,
-  "rpc": true,
-  "routers": ["/cheese", "/bread"],
-  "bodyparsers": true,
-  "views": "hbs",
-  "port": 4444,
-  "host": "0.0.0.0",
-  "static": "public"
+    "graphql": false,
+    "rpc": false,
+    "routers": [],
+    "bodyparsers": false,
+    "views": "hamlet",
+    "port": 4444,
+    "host": "0.0.0.0",
+    "static": false,
+    "package": {
+        "name":"my-app",
+        "description": "this is my-app",
+        "author": "Alex Merced",
+        "email": "alexmerced@alexmerced.dev",
+        "repo": "http://github.com/..."
+    },
+    "db": "sql-sqlite3"
 }
 ```
 

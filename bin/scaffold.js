@@ -2,6 +2,8 @@ import { execSync } from "child_process";
 import { mkdirSync, readFileSync, writeFileSync, existsSync } from "fs";
 import { log } from "mercedlogger";
 import makePackage from "./makepackage.js";
+import addSQL from "./addsql.js";
+import addMongo from "./addmongo.js";
 
 export default function scaffold(pathToJson = "./scaffold.json") {
   //+++++++++++++++++++++++++++++++++++
@@ -47,8 +49,11 @@ export default function scaffold(pathToJson = "./scaffold.json") {
 
   log.white("Progress", "Create .env and .gitignore");
   // create folders
-  writeFileSync("./.env", `PORT=
-DATABASE_URL=`);
+  writeFileSync(
+    "./.env",
+    `PORT=
+DATABASE_URL=`
+  );
   writeFileSync(
     "./.gitignore",
     `/node_modules
@@ -352,6 +357,28 @@ app.listen();
   makePackage(config.package);
   log.white("Progress", "Install Dependencies");
   execSync(`npm install ${dependencies.join(" ")}`);
+
+  //+++++++++++++++++++++++++++++++++++
+  //++++++ Generate Database
+  //+++++++++++++++++++++++++++++++++++
+
+  log.white("Progress", "Check if Database Needed");
+  if (config.db) {
+    if (config.db === "mongo") {
+      addMongo();
+    } else {
+      const sql = config.db.split("-");
+      if (
+        sql[0] === "sql" &&
+        sql.length === 2 &&
+        ["pg", "mysql2", "sqlite3", "mariadb", "oracledb", "MSSQL"].includes(
+          sql[1]
+        )
+      ) {
+        addSQL(sql[1]);
+      }
+    }
+  }
 
   log.green(
     "SUCCESS",

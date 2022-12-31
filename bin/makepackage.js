@@ -67,13 +67,13 @@ export default function makePackage(pack) {
         "homepage": "",
         "repository": {
           "type": "git",
-          "url": ""
+          "url": "${pack.repo ? pack.repo : ""}"
         },
         "bugs": "",
         "keywords": [],
         "author": {
-          "name": "",
-          "email": "",
+          "name": "${pack.author ? pack.author : ""}",
+          "email": "${pack.email ? pack.email : ""}",
           "url": ""
         },
         "contributors": [
