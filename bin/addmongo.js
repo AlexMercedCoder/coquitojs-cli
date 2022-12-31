@@ -1,11 +1,5 @@
 import { execSync } from "child_process";
-import {
-  mkdirSync,
-  readFileSync,
-  writeFileSync,
-  existsSync,
-  writeSync,
-} from "fs";
+import { mkdirSync, writeFileSync, existsSync } from "fs";
 import { log } from "mercedlogger";
 
 export default function addMongo() {
@@ -18,7 +12,7 @@ export default function addMongo() {
   execSync("npm install mongoose");
 
   log.white("Progress", "Write Connection File");
-  writeSync(
+  writeFileSync(
     "./db/connection.js",
     `
 import dotenv from "dotenv" // get .env vars
@@ -36,5 +30,16 @@ mongoose.connection
 // export the mongoose object
 export default mongoose
     `
+  );
+
+  log.green(
+    "complete",
+    `
+  -------------------------------------------------------
+                        COMPLETE
+        - Create a new model with "coquito add-mongo-model modelname"
+        - Make sure to define DATABASE_URL in a .env file
+  -------------------------------------------------------
+  `
   );
 }

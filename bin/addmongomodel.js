@@ -1,10 +1,7 @@
-import { execSync } from "child_process";
 import {
   mkdirSync,
-  readFileSync,
   writeFileSync,
   existsSync,
-  writeSync,
 } from "fs";
 import { log } from "mercedlogger";
 
@@ -16,7 +13,7 @@ export default function addMongoModel(modelName = "Model") {
       }
 
   log.white("Progress", "Write Model File");
-  writeSync(
+  writeFileSync(
     `./models/${modelName}.js`,
     `import mongoose from "../db/connection.js";
 
@@ -31,4 +28,12 @@ export default function addMongoModel(modelName = "Model") {
     // Export the ${modelName} Model
     export default ${modelName}`
   );
+
+  log.green("complete",`
+  -------------------------------------------------------
+                        COMPLETE
+        - Make sure to specify the schema in ./models/${modelName}.js
+        - Import the model in controllers you want to use it in
+  -------------------------------------------------------
+  `)
 }

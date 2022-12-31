@@ -1,4 +1,4 @@
-## Couquito-CLI
+## Coquito-CLI
 
 [Read Documentation for Coquito Framework here](https://www.npmjs.com/package/coquito)
 
@@ -55,4 +55,24 @@ Scaffold connection file for using mongo
 
 Scaffold a mongo model file.
 
-`coquito add-mongo-model`
+`coquito add-mongo-model Dog`
+
+## add-rest-routes
+
+Add a new controller file with Index, Show, Create, Update and Delete routes scaffolding for easy CRUD route building.
+
+`coquito add-rest-routes dog`
+
+## add-sql
+
+Scaffold a Sequalize connection file for connecting to sql databases. Install sequelize and libraries for specified database.
+
+```
+coquito add-sql sqlite3
+```
+
+database options
+
+```
+["pg", "mysql2", "sqlite3", "mariadb", "oracledb", "MSSQL"]
+```

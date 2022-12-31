@@ -1,1 +1,1 @@
-console.log(JSON.stringify(["hello", "cheese"]))
+console.log(true)
