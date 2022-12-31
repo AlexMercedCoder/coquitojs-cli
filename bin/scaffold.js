@@ -6,11 +6,13 @@ import addSQL from "./addsql.js";
 import addMongo from "./addmongo.js";
 import authMongo from "./authmongo.js";
 import authSQL from "./authsql.js";
-import addRestRoutes from "./addrestroutes.js";
 import addMongoModel from "./addmongomodel.js";
 import addSQLModel from "./addsqlmodel.js";
 
 export default function scaffold(pathToJson = "./scaffold.json") {
+
+  
+
   //+++++++++++++++++++++++++++++++++++
   //++++++Check If File Exists
   //+++++++++++++++++++++++++++++++++++
@@ -47,6 +49,7 @@ export default function scaffold(pathToJson = "./scaffold.json") {
   // read scaffold.json
   const configRaw = readFileSync(pathToJson);
   const config = JSON.parse(configRaw);
+  const { bodyparsers, routers, graphql, rpc, port, host, views } = config;
 
   //+++++++++++++++++++++++++++++++++++
   //++++++ Create .env and .gitignore
@@ -78,25 +81,7 @@ SECRET=`
   config.views ? mkdirSync("./views") : null;
   mkdirSync("./models");
 
-  //+++++++++++++++++++++++++++++++++++
-  //++++++ write server-config.json
-  //+++++++++++++++++++++++++++++++++++
 
-  log.white("Progress", "Write server-config.json");
-  //config object -> server-config.json
-  const { bodyparsers, routers, graphql, rpc, port, host, views } = config;
-
-  writeFileSync(
-    "./server-config.json",
-    `{
-        "bodyparsers": ${Boolean(bodyparsers)},
-        "routers": ${JSON.stringify(routers)},
-        "port": ${port ? port : 4000},
-        ${config.static ? `"static": "${config.static}",` : ""}
-        "host": ${host ? `"${host}"` : '"localhost"'}
-    }
-    `
-  );
 
   //+++++++++++++++++++++++++++++++++++
   //++++++ Scaffold GraphQL
@@ -316,8 +301,29 @@ ${path}Router(app.${path});
     // register /${model.toLowerCase()} routes
 ${model.toLowerCase()}Router(app.${model.toLowerCase()});
     `);
+
+    routers.push(`/${model.toLowerCase()}`)
     }
   }
+
+  //+++++++++++++++++++++++++++++++++++
+  //++++++ write server-config.json
+  //+++++++++++++++++++++++++++++++++++
+
+  log.white("Progress", "Write server-config.json");
+  //config object -> server-config.json
+
+  writeFileSync(
+    "./server-config.json",
+    `{
+        "bodyparsers": ${Boolean(bodyparsers)},
+        "routers": ${JSON.stringify(routers)},
+        "port": ${port ? port : 4000},
+        ${config.static ? `"static": "${config.static}",` : ""}
+        "host": ${host ? `"${host}"` : '"localhost"'}
+    }
+    `
+  );
 
   //+++++++++++++++++++++++++++++++++++
   //++++++ Write Server.js
