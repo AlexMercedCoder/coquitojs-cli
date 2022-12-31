@@ -35,6 +35,13 @@ export default mongoose
     `
   );
 
+  log.white("Progress", "Write Seed File");
+  writeFileSync("./db/seed.js",`//+++++++++++++++++++++
+  // Use this file to seed your database
+  // import your models, create some items
+  // run this file with "npm run seed"
+  //++++++++++++++++++++++++++++++++++++`)
+
   log.green(
     "complete",
     `

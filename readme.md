@@ -25,6 +25,7 @@ create an empty directory and create a "scaffold.js" that looks like this:
     "graphql": false,
     "rpc": false,
     "routers": [],
+    "models" : ["Dog", "Cat"]
     "bodyparsers": false,
     "views": "hamlet",
     "port": 4444,

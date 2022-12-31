@@ -6,6 +6,9 @@ import addSQL from "./addsql.js";
 import addMongo from "./addmongo.js";
 import authMongo from "./authmongo.js";
 import authSQL from "./authsql.js";
+import addRestRoutes from "./addrestroutes.js";
+import addMongoModel from "./addmongomodel.js";
+import addSQLModel from "./addsqlmodel.js";
 
 export default function scaffold(pathToJson = "./scaffold.json") {
   //+++++++++++++++++++++++++++++++++++
@@ -295,6 +298,25 @@ ${path}Router(app.${path});
     `);
 
     serverImports.push(`import ${path}Router from "./controllers/${path}.js";`);
+  }
+
+  if (config.models) {
+    for (let model of config.models) {
+      if (config.db && config.db === "mongo") {
+        addMongoModel(model);
+      }
+
+      if (config.db && config.db.split("-")[0] === "sql") {
+        addSQLModel(model);
+      }
+      serverImports.push(
+        `import ${model.toLowerCase()}Router from "./controllers/${model.toLowerCase()}.js";`
+      );
+      routeRegisters.push(`
+    // register /${model.toLowerCase()} routes
+${model.toLowerCase()}Router(app.${model.toLowerCase()});
+    `);
+    }
   }
 
   //+++++++++++++++++++++++++++++++++++

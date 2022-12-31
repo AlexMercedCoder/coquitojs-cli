@@ -20,7 +20,7 @@ export default function addRestRoutes(name = "model") {
         // get to /${name.toLowerCase()}
         // should return all items
         //********************* */
-        router.get("/", (req, res) => {
+        router.get("/", async (req, res) => {
             res.json({response: "all the items"})
         })
     
@@ -29,7 +29,7 @@ export default function addRestRoutes(name = "model") {
         // get to /${name.toLowerCase()}/:id
         // should return all items
         //********************* */
-        router.get("/:id", (req, res) => {
+        router.get("/:id", async (req, res) => {
             const id = req.params.id
             res.json({response: "a single item"})
         })
@@ -39,8 +39,8 @@ export default function addRestRoutes(name = "model") {
         // post to /${name.toLowerCase()}
         // should create a new item from request body
         //********************* */
-        router.post("/", (req, res) => {
-            const body = request.body
+        router.post("/", async (req, res) => {
+            const body = req.body
             res.json({response: "a new item"})
         })
     
@@ -49,7 +49,7 @@ export default function addRestRoutes(name = "model") {
         // put to /${name.toLowerCase()}/:id
         // should update a particular item from request body
         //********************* */
-        router.put("/:id", (req, res) => {
+        router.put("/:id", async (req, res) => {
             const id = req.params.id
             const body = req.body
             res.json({response: "a new item"})
@@ -60,7 +60,7 @@ export default function addRestRoutes(name = "model") {
         // delete to /${name.toLowerCase()}/:id
         // should delete the item with the specifed id
         //********************* */
-        router.put("/:id", (req, res) => {
+        router.put("/:id", async (req, res) => {
             const id = req.params.id
             res.json({response: "a new item"})
         })

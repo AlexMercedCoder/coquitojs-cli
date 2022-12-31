@@ -37,7 +37,8 @@ export default function makePackage(pack) {
             ],
             "scripts": {
               "start":"node server.js",
-              "dev": "node --watch server.js"
+              "dev": "node --watch server.js",
+              "seed":"node db/seed.js"
             },
             "dependencies": {
           

@@ -28,10 +28,13 @@ import {
         // Other model options go here
       });
       
-      ${modelName}.sync({alter: true})
+      ${modelName}.sync()
       
       export default ${modelName}`
     );
+
+    log.white("Progress", "creating model controller file");
+  addRestRoutes(modelName.toLowerCase());
   
     log.green("complete",`
     -------------------------------------------------------
