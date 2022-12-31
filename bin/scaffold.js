@@ -1,6 +1,7 @@
 import { execSync } from "child_process";
 import { mkdirSync, readFileSync, writeFileSync, existsSync } from "fs";
 import { log } from "mercedlogger";
+import makePackage from "./makepackage.js";
 
 export default function scaffold(pathToJson = "./scaffold.json") {
   //+++++++++++++++++++++++++++++++++++
@@ -347,7 +348,7 @@ app.listen();
   //+++++++++++++++++++++++++++++++++++
 
   log.white("Progress", "Create Node Project");
-  execSync("npm init es6 -y");
+  makePackage(config.package);
   log.white("Progress", "Install Dependencies");
   execSync(`npm install ${dependencies.join(" ")}`);
 
