@@ -47,7 +47,8 @@ export default function scaffold(pathToJson = "./scaffold.json") {
 
   log.white("Progress", "Create .env and .gitignore");
   // create folders
-  writeFileSync("./.env", "");
+  writeFileSync("./.env", `PORT=
+DATABASE_URL=`);
   writeFileSync(
     "./.gitignore",
     `/node_modules

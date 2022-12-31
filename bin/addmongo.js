@@ -18,6 +18,9 @@ export default function addMongo() {
 import dotenv from "dotenv" // get .env vars
 import mongoose from "mongoose" // imports mongoose
 
+// load .env vars
+dotenv.config()
+
 // Establish connection, DATABASE_URL defined in .env
 mongoose.connect(process.env.DATABASE_URL)
 
