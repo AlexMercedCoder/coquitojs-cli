@@ -24,6 +24,16 @@ export default function scaffold(pathToJson = "./scaffold.json") {
     throw `scaffold.json at path (${pathToJson}) does not exist`;
   }
 
+    //+++++++++++++++++++++++++++++++++++
+  //++++++Read Scaffold.json
+  //+++++++++++++++++++++++++++++++++++
+
+  log.white("Progress", "Read scaffolding json");
+  // read scaffold.json
+  const configRaw = readFileSync(pathToJson);
+  const config = JSON.parse(configRaw);
+  const { bodyparsers, routers, graphql, rpc, port, host, views } = config;
+
   //+++++++++++++++++++++++++++++++++++
   //++++++Track Deps
   //+++++++++++++++++++++++++++++++++++
@@ -62,17 +72,6 @@ export default function scaffold(pathToJson = "./scaffold.json") {
     dependencies.push("morgan")
   }
 
-
-
-  //+++++++++++++++++++++++++++++++++++
-  //++++++Read Scaffold.json
-  //+++++++++++++++++++++++++++++++++++
-
-  log.white("Progress", "Read scaffolding json");
-  // read scaffold.json
-  const configRaw = readFileSync(pathToJson);
-  const config = JSON.parse(configRaw);
-  const { bodyparsers, routers, graphql, rpc, port, host, views } = config;
 
   //+++++++++++++++++++++++++++++++++++
   //++++++ Create .env and .gitignore
