@@ -334,7 +334,7 @@ ${path}Router(app.r.${path});
       );
       routeRegisters.push(`
     // register /${model.toLowerCase()} routes
-${model.toLowerCase()}Router(app.${model.toLowerCase()});
+${model.toLowerCase()}Router(app.r.${model.toLowerCase()});
     `);
 
     routers.push(`/${model.toLowerCase()}`)
