@@ -314,7 +314,7 @@ export default corsOptions
     );
     routeRegisters.push(`
     // register /${path} routes
-${path}Router(app.${path});
+${path}Router(app.r.${path});
     `);
 
     serverImports.push(`import ${path}Router from "./controllers/${path}.js";`);
