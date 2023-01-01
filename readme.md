@@ -16,6 +16,16 @@ you can also specify the folder name like so:
 
 `coquito newbasicproject folderName`
 
+## newbasicproject
+
+Create a new Coquito Project from the Typescript template with the following command.
+
+`coquito newtsproject`
+
+you can also specify the folder name like so:
+
+`coquito newtsproject folderName`
+
 ## scaffold
 
 create an empty directory and create a "scaffold.js" that looks like this:

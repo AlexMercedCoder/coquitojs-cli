@@ -14,7 +14,7 @@ const [, , operation, arg1] = process.argv;
 
 switch (operation) {
   case "newbasicproject":
-    log.cyan("Process", "Generating New CoquitoJS Project");
+    log.cyan("Process", "Generating New CoquitoJS Project from Basic JS Template");
     execSync(`npx degit@latest AlexMercedCoder/CoquitoJS-Template ${arg1}`);
     log.cyan(
       "Process",
@@ -23,6 +23,17 @@ switch (operation) {
       } folder and run npm install`
     );
     break;
+
+  case "newtsproject":
+      log.cyan("Process", "Generating New CoquitoJS Project from TS Template");
+      execSync(`npx degit@latest AlexMercedCoder/Coquito-TS-Template ${arg1}`);
+      log.cyan(
+        "Process",
+        `Project generated, cd into ${
+          arg1 ? arg1 : "my-app"
+        } folder and run npm install`
+      );
+      break;
 
   case "scaffold":
     arg1 ? scaffold(arg1) : scaffold();
@@ -65,6 +76,7 @@ switch (operation) {
                         No Operation Specified
             OPTIONS:
             - newbasicproject [projectname] (create new coquito app from basic template)
+            - newtsproject [projectname] (create new coquito app from TS template)
             - scaffold [path to scaffold.json]
             - add-mongo
             - add-mongo-model [model name]
