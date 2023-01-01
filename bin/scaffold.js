@@ -442,6 +442,7 @@ app.listen();
 Project is ready to go, just one more step:
 
 - run "node server.js" to try it out!
+- read the readme.md for more documentation
   -------------------------------------
   `
   );
