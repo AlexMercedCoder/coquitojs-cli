@@ -7,42 +7,42 @@ export default function makeReadMe(config) {
     "./readme.md",
     `## Your CoquitoJS Project
 
-    Welcome to your scaffolded CoquitoJS Project, this readme should help you understand the layout of your project. A few resources for reference:
+Welcome to your scaffolded CoquitoJS Project, this readme should help you understand the layout of your project. A few resources for reference:
     
-    - [CoquitoJS Documentation](https://www.npmjs.com/package/coquito)
-    - [Coquito CLI Documentation](https://www.npmjs.com/package/coquito-cli)
+- [CoquitoJS Documentation](https://www.npmjs.com/package/coquito)
+- [Coquito CLI Documentation](https://www.npmjs.com/package/coquito-cli)
     
-    ## Scripts
+## Scripts
     
-    The following scripts are in your package.json
+The following scripts are in your package.json
     
-    - **npm start** runs your server
-    - **npm run dev** runs your server and watches your files (requires node 18+)
-    - **npm run seed** for seeding your database, runs ./db/seed.js (if you added a database)
+- **npm start** runs your server
+- **npm run dev** runs your server and watches your files (requires node 18+)
+- **npm run seed** for seeding your database, runs ./db/seed.js (if you added a database)
     
-    ## Key Files
+## Key Files
     
-    #### server-config.json
+#### server-config.json
     
-    This file is used to offload some of the key arguments to the CoquitoApp constructor.
+This file is used to offload some of the key arguments to the CoquitoApp constructor.
     
-    ${"```"}js
-    {
-        "bodyparsers": false,
-        "routers": ["/dog","/cat"],
-        "port": 4444,        
-        "host": "0.0.0.0"
-    }
-    ${"```"}
+${"```"}js
+{
+    "bodyparsers": false,
+    "routers": ["/dog","/cat"],
+    "port": 4444,        
+    "host": "0.0.0.0"
+}
+${"```"}
     
-    - If bodyparsers are true, the express json/urlecoded bodyparsers will be enabled.
-    - All items in the routes will array will have a router created for it when the application starts accessible at **app.pathName**.
+- If bodyparsers are true, the express json/urlecoded bodyparsers will be enabled.
+- All items in the routes will array will have a router created for it when the application starts accessible at **app.pathName**.
     
-    Consult Coquito documentation for list of all properties passable to the CoquitoApp constructor.
+Consult Coquito documentation for list of all properties passable to the CoquitoApp constructor.
     
-    #### Your View Engine
+#### Your View Engine
     
-    If you selected a view engine, you'll be able to write your views using that library. Below are links to the documentation for all supported templating libraries:
+If you selected a view engine, you'll be able to write your views using that library. Below are links to the documentation for all supported templating libraries:
     
     - [EJS](https://ejs.co/)
     - [Pug](https://pugjs.org/api/getting-started.html)
@@ -52,94 +52,94 @@ export default function makeReadMe(config) {
     - [Mustache](https://github.com/janl/mustache.js)
     - [Twig](https://twig.symfony.com/)
     
-    Refer to the sample route in server.js and the initial view in the ./views folder to see how use these templating engines in your application.
+Refer to the sample route in server.js and the initial view in the ./views folder to see how use these templating engines in your application.
     
-    #### How the GraphQL API Works
+#### How the GraphQL API Works
     
-    [GraphQL Documentation (how to write resolvers and functions)](https://graphql.org/learn/)
+[GraphQL Documentation (how to write resolvers and functions)](https://graphql.org/learn/)
     
     1. Define the functions that should handle your GraphQL queries in the ./graphql/rootValue.js file. The express req, res object will be inside the context argument of the graphql resolver.
     
     2. Define your API's schema in ./graphql/schema.js
     
-    The api is accessed by making post requests to /graphql with a json body with a query property that is your graphql query string. GraphQL clients should automatically do this, you'll just have to provide the client the url and the query string. (Popular Javascript clients include Apollo and Relay)
+The api is accessed by making post requests to /graphql with a json body with a query property that is your graphql query string. GraphQL clients should automatically do this, you'll just have to provide the client the url and the query string. (Popular Javascript clients include Apollo and Relay)
     
     [GraphQL Bin - Great Tool for Testing your GraphQL API](https://www.graphqlbin.com/v2/new)
     
-    If you need to register any middleware specifically on the /graphql router pass a function under the gqlhook property in the CoquitoApp constructor. The function takes the router as an argument and in the function you can do whatever you like with it (mainly regiser middleware).
+If you need to register any middleware specifically on the /graphql router pass a function under the gqlhook property in the CoquitoApp constructor. The function takes the router as an argument and in the function you can do whatever you like with it (mainly regiser middleware).
     
-    #### How the SimpleRPC API Works
+#### How the SimpleRPC API Works
     
     - [SimpleRPC Server Library](https://www.npmjs.com/package/@alexmerced/simplerpc-server)
     - [SimpleRPC Client Library](https://www.npmjs.com/package/@alexmerced/simplerpc-client)
     
-    The functions that can be called are all defined in ./rpc/actions.js, these functions get two arguments.
+The functions that can be called are all defined in ./rpc/actions.js, these functions get two arguments.
     
     - payload (data that is passed from the client dispatch call)
     - context (includes data in ./rpc/context.js plus the express req/res objects)
     
-    These functions are called by making post requests to /rpc with a request body following this shape:
+These functions are called by making post requests to /rpc with a request body following this shape:
     
-    ${"```"}json
-    {
-        "type":"functionName",
-        "payload":{
-            "arg1": "something",
-            "arg2": "something else"
-        }
-    }
-    ${"```"}
+${"```"}json
+{
+  "type":"functionName",
+  "payload":{
+    "arg1": "something",
+    "arg2": "something else"
+  }
+}
+${"```"}
     
-    Type is used to determine which function is called, and the payload object is passed to it. There is a javascript frontend client
+Type is used to determine which function is called, and the payload object is passed to it. There is a javascript frontend client
     
-    If you need to register any middleware specifically on the /rpc router pass a function under the rpchook property in the CoquitoApp constructor. The function takes the router as an argument and in the function you can do whatever you like with it (mainly regiser middleware).
+If you need to register any middleware specifically on the /rpc router pass a function under the rpchook property in the CoquitoApp constructor. The function takes the router as an argument and in the function you can do whatever you like with it (mainly regiser middleware).
     
-    ##### Database
+##### Database
 
     - [Mongoose (Mongo ODM)](https://mongoosejs.com/)
     - [Sequelize (RDBMS ORM)](https://sequelize.org/)
     
-    If you selected to have a database in your app you'll get the following files:
+If you selected to have a database in your app you'll get the following files:
     
     - ./db/connection.js the code that establishes a connection to the database
     - ./db/seed.js a file for running arbitrary code mainly to seed your database by importing your models and running any code you like. Run this file with the command **npm run seed**
     
-    Make sure to pass the database url in your .env file under DATABASE_URL.
+Make sure to pass the database url in your .env file under DATABASE_URL.
     
-    Some example URL strings:
+Some example URL strings:
     
     - mongo: mongodb://127.0.0.1:27017/databasename
     - postgres: postgres://username:password@localhost:5432/databasename
     - sqlite3: sqlite:database.db
     
-    If you had listed models in your scaffold.js, those files should now exist in the ./models folder, you now just have to define their schema and they should be good to go. If you didn't or need additional models use the following commands.
+If you had listed models in your scaffold.js, those files should now exist in the ./models folder, you now just have to define their schema and they should be good to go. If you didn't or need additional models use the following commands.
     
     - coquito add-mongo-model modelName
     - coquito add-sql-model modelName
     
-    This will generate the model file and corresponding controller file.
+This will generate the model file and corresponding controller file.
     
-    #### Controllers
+#### Controllers
     
-    In the ./controllers file you'll find your controllers. They come as functions that take a router and register routes to that router. Any model/routers that were defined in scaffold should already be created but if you need additional router files you can use the following command:
+In the ./controllers file you'll find your controllers. They come as functions that take a router and register routes to that router. Any model/routers that were defined in scaffold should already be created but if you need additional router files you can use the following command:
     
     - coquito add-rest-routes name
     
-    Just import the function in your server.js and pass it the router you want it to control.
+Just import the function in your server.js and pass it the router you want it to control.
     
-    ${"```"}js
+${"```"}js
     controllerFunction(router)
-    ${"```"}
+${"```"}
     
-    #### Auth
+#### Auth
     
-    If you scaffolded authentication you'll find a file called ./auth/functions.js and in this file you'll find many help function for building your auth.
+If you scaffolded authentication you'll find a file called ./auth/functions.js and in this file you'll find many help function for building your auth.
     
-    Some of it may need some customization but they should get you most of the way there regardless of whether your doing session or jwt based auth.
+Some of it may need some customization but they should get you most of the way there regardless of whether your doing session or jwt based auth.
     
-    Make sure to define SECRET in .env, it can be anything.
+Make sure to define SECRET in .env, it can be anything.
     
-    Functions:
+Functions:
     
     - sessionMiddlware - This can be passed to your middleWare array in server.js to enable sessions which will be available on req.session
     

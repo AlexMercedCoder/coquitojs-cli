@@ -166,7 +166,7 @@ export default function authMongo() {
     };
     
     // should be passed req.cookieData if using the cookie parsin middleware included in this file.
-    export const checkCookieForToken = (req) => {
+    export const checkCookieForToken = async(req) => {
         try {
     
         const token = req?.cookieData?.token
