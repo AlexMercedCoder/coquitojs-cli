@@ -29,7 +29,7 @@ import addRestRoutes from "./addrestroutes.js";
         // Other model options go here
       });
       
-      ${modelName}.sync()
+      await ${modelName}.sync()
       
       export default ${modelName}`
     );
