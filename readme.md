@@ -65,6 +65,8 @@ You project will be scaffolded in the directory. If the config file is somewhere
 
 - "routers" will add just a blank controller for each endpoint, "models" will create a model file, rest routes and a router for each model specified.
 
+- If you have a static folder and graphql or rpc turned on a "clients.js" will be created that provides some basic frontend GraphQL and SimpleRPC clients to use in your frontend code.
+
 ## add-mongo
 
 Scaffold connection file for using mongo

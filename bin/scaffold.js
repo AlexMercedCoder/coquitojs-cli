@@ -9,6 +9,7 @@ import authSQL from "./authsql.js";
 import addMongoModel from "./addmongomodel.js";
 import addSQLModel from "./addsqlmodel.js";
 import makeReadMe from "./makereadme.js";
+import makeClients from "./makeClients.js";
 
 export default function scaffold(pathToJson = "./scaffold.json") {
 
@@ -100,6 +101,7 @@ SECRET=`
   // create folders
   mkdirSync("./controllers");
   config.static ? mkdirSync(config.static) : null;
+  config.static ? makeClients(config) : null;
   config.views ? mkdirSync("./views") : null;
   mkdirSync("./models");
 
