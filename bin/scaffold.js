@@ -8,6 +8,7 @@ import authMongo from "./authmongo.js";
 import authSQL from "./authsql.js";
 import addMongoModel from "./addmongomodel.js";
 import addSQLModel from "./addsqlmodel.js";
+import makeReadMe from "./makereadme.js";
 
 export default function scaffold(pathToJson = "./scaffold.json") {
 
@@ -426,6 +427,13 @@ app.listen();
       authSQL();
     }
   }
+
+  //+++++++++++++++++++++++++++++++++++
+  //++++++ Create Readme
+  //+++++++++++++++++++++++++++++++++++
+
+  log.white("Progress", "Create Readme");
+  makeReadMe(config)
 
   log.green(
     "SUCCESS",
