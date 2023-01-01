@@ -67,6 +67,12 @@ You project will be scaffolded in the directory. If the config file is somewhere
 
 - If you have a static folder and graphql or rpc turned on a "clients.js" will be created that provides some basic frontend GraphQL and SimpleRPC clients to use in your frontend code.
 
+- You can prepopulate the DATABASE_URL env variable with the `dburi` property in your scaffold.json
+
+- the SECRET env variable will be pre-populated with a random UUID, feel to change it if you like.
+
+- You can prepopulate auth with `"auth":"mongo"` or `"auth":"sql"` and if done at time of scaffolding the sessions and cookieParser middeware will be pre-registered. Read the comments in `./auth/functions.js`
+
 ## add-mongo
 
 Scaffold connection file for using mongo

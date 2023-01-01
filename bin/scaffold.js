@@ -10,6 +10,7 @@ import addMongoModel from "./addmongomodel.js";
 import addSQLModel from "./addsqlmodel.js";
 import makeReadMe from "./makereadme.js";
 import makeClients from "./makeClients.js";
+import { randomUUID } from "crypto";
 
 export default function scaffold(pathToJson = "./scaffold.json") {
 
@@ -59,11 +60,22 @@ export default function scaffold(pathToJson = "./scaffold.json") {
   log.white("Progress", "Configuring Middleware");
   let morgan = ""
   let methodOverride = ""
+  let cookieParser = ""
+  let sessions = ""
 
   if (config.methodOverride){
     methodOverride = ",methodOverride('_method')"
     serverImports.push("import methodOverride from 'method-override'")
     dependencies.push("method-override")
+  }
+
+  if (["mongo","sql"].includes(config.auth)){
+    serverImports.push("import {sessionMiddlware} from './auth/functions.js'")
+    serverImports.push("import {cookieParsingMiddleware} from './auth/functions.js'")
+
+    cookieParser = ",cookieParsingMiddleware"
+
+    sessions = ",sessionMiddlware"
   }
 
   if (config.logging){
@@ -81,9 +93,9 @@ export default function scaffold(pathToJson = "./scaffold.json") {
   // create folders
   writeFileSync(
     "./.env",
-    `PORT=
-DATABASE_URL=
-SECRET=`
+    `PORT=${config.port ? config.port : ""}
+DATABASE_URL=${config.dburi ? config.dburi : ""}
+SECRET=${randomUUID()}`
   );
   writeFileSync(
     "./.gitignore",
@@ -371,7 +383,7 @@ const prehook = ${viewConfigure ? viewConfigure : "(app) => {}"}
 const app = new CoquitoApp({
  ...serverConfig,
   // register other middleware for cors
-  middleware: [corsMiddleware${morgan}${methodOverride}],
+  middleware: [corsMiddleware${sessions}${cookieParser}${morgan}${methodOverride}],
   ${
     graphql
       ? `// scaffold graphql api
