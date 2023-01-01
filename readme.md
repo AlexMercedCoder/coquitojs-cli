@@ -39,7 +39,9 @@ create an empty directory and create a "scaffold.js" that looks like this:
         "repo": "http://github.com/..."
     },
     "db": "sql-sqlite3",
-    "auth": "sql"
+    "auth": "sql",
+    "logging": true,
+    "methodOverride": true
 }
 ```
 
@@ -56,6 +58,12 @@ You project will be scaffolded in the directory. If the config file is somewhere
 - If you don't need a view engine, just assign false or don't include the property
 
 - values for auth can be "sql" or "mongo", all other values will be ignored an no auth will be added.
+
+- "methodOverride" property will let you override method on form requests by adding a url query in the formal of `?_method=DELETE` in the form action attribute.
+
+- "logging" will add the morgan logging middleware.
+
+- "routers" will add just a blank controller for each endpoint, "models" will create a model file, rest routes and a router for each model specified.
 
 ## add-mongo
 

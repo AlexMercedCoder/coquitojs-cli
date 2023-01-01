@@ -95,6 +95,9 @@ export default function makeReadMe(config) {
     If you need to register any middleware specifically on the /rpc router pass a function under the rpchook property in the CoquitoApp constructor. The function takes the router as an argument and in the function you can do whatever you like with it (mainly regiser middleware).
     
     ##### Database
+
+    - [Mongoose (Mongo ODM)](https://mongoosejs.com/)
+    - [Sequelize (RDBMS ORM)](https://sequelize.org/)
     
     If you selected to have a database in your app you'll get the following files:
     

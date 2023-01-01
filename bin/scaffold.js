@@ -43,6 +43,27 @@ export default function scaffold(pathToJson = "./scaffold.json") {
   let viewConfigure = undefined;
 
   //+++++++++++++++++++++++++++++++++++
+  //++++++Potential Middleware
+  //+++++++++++++++++++++++++++++++++++
+  log.white("Progress", "Configuring Middleware");
+  let morgan = ""
+  let methodOverride = ""
+
+  if (config.methodOverride){
+    methodOverride = ",methodOverride('_method')"
+    serverImports.push("import methodOverride from 'method-override'")
+    dependencies.push("method-override")
+  }
+
+  if (config.logging){
+    morgan = ",morgan('dev')"
+    serverImports.push("import morgan from 'morgan'")
+    dependencies.push("morgan")
+  }
+
+
+
+  //+++++++++++++++++++++++++++++++++++
   //++++++Read Scaffold.json
   //+++++++++++++++++++++++++++++++++++
 
@@ -349,23 +370,18 @@ const prehook = ${viewConfigure ? viewConfigure : "(app) => {}"}
 const app = new CoquitoApp({
  ...serverConfig,
   // register other middleware for cors
-  middleware: [corsMiddleware],
+  middleware: [corsMiddleware${morgan}${methodOverride}],
   ${
     graphql
-      ? `
-  // scaffold graphql api
-  graphql: { rootValue, schema },
-  `
+      ? `// scaffold graphql api
+graphql: { rootValue, schema },`
       : ""
   }
   ${
     rpc
-      ? `
-  // scaffold simpleRPC api
-  rpc: { actions, context },
-  `
-      : ""
-  }
+      ? `// scaffold simpleRPC api
+rpc: { actions, context },`
+      : ""}
   // pass prehook for custom app configuations
   prehook,
 });
