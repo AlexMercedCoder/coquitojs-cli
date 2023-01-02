@@ -20,7 +20,7 @@ switch (operation) {
       "Process",
       `Project generated, cd into ${
         arg1 ? arg1 : "my-app"
-      } folder and run npm install`
+      } folder and run npm install, read the readme.md for more details`
     );
     break;
 
@@ -31,7 +31,7 @@ switch (operation) {
         "Process",
         `Project generated, cd into ${
           arg1 ? arg1 : "my-app"
-        } folder and run npm install`
+        } folder and run npm install, read the readme.md for more details`
       );
       break;
 
